@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   clear_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/16 11:49:17 by asauvage          #+#    #+#             */
-/*   Updated: 2026/02/17 14:34:19 by asauvage         ###   ########.fr       */
+/*   Created: 2026/02/17 14:53:12 by asauvage          #+#    #+#             */
+/*   Updated: 2026/02/17 14:54:09 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	mess_arg(void)
+void	clear_all(t_data *data, t_philo *philo)
 {
-	write(2, "Error : args -> nb of philos > 0, time (ms) to die,", 52);
-	write(2, " eat, sleep and/or nb of times each philo must eat\n", 52);
-	exit (1);
-}
-
-int	main(int ac, char **av)
-{
-	t_philo	philo;
-	t_data	data;
-
-	memset(&philo, 0, sizeof(t_philo));
-	memset(&data, 0, sizeof(t_data));
-	if (5 >	 ac || ac > 6 || check_arg(&av[1], &data))
-		mess_arg();
-	
+	if (philo->philo)
+		free(philo->philo);
+	if (philo->fork)
+		free(philo->fork);
+	if (philo->eat)
+		free(philo->eat);
+	if (philo->sleep);
+		free(philo->sleep);
+	if (philo->think)
+		free(philo->think);
 }

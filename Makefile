@@ -6,7 +6,7 @@
 #    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 15:58:44 by asauvage          #+#    #+#              #
-#    Updated: 2026/02/16 16:12:39 by asauvage         ###   ########.fr        #
+#    Updated: 2026/02/17 14:54:30 by asauvage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,18 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -I.
 
-NAME = Philo
+NAME = philo
 
 SRC_DIR = src
 OBJ_DIR = obj
 
-SRCS = main.c
+SRCS = main.c \
+	   ft_atol.c \
+	   check_arg.c \
+	   err_mess.c \
+	   ft_putstr_fd.c \
+	   malloc_struct.c \
+	   clear_all.c
 
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
