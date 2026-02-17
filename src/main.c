@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 11:49:17 by asauvage          #+#    #+#             */
-/*   Updated: 2026/02/17 14:34:19 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:04:34 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ int	main(int ac, char **av)
 	memset(&data, 0, sizeof(t_data));
 	if (5 >	 ac || ac > 6 || check_arg(&av[1], &data))
 		mess_arg();
-	
+	malloc_struct(&data, &philo);
+	create_philo(&data, &philo);
 }
