@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 11:50:26 by asauvage          #+#    #+#             */
-/*   Updated: 2026/02/17 16:58:36 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/09 16:38:54 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-typedef struct s_philo
-{
-	int				id;
-	pthread_t		thread;
-	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*r_fork;
-	t_data			*data;
-}					t_philo;
-
 typedef struct s_data
 {
 	int				nb_philo;
@@ -41,6 +32,15 @@ typedef struct s_data
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*lock;
 }					t_data;
+
+typedef struct s_philo
+{
+	int				id;
+	pthread_t		thread;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
+	t_data			*data;
+}					t_philo;
 
 long	ft_atol(const char *nptr, int *status);
 int		check_arg(char **av, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:53:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/02/17 14:56:30 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/09 13:17:13 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,5 @@
 
 void	clear_all(t_data *data, t_philo *philo)
 {
-	(void)data;
-	if (philo->philo)
-		free(philo->philo);
-	if (philo->fork)
-		free(philo->fork);
-	if (philo->eat)
-		free(philo->eat);
-	if (philo->sleep)
-		free(philo->sleep);
-	if (philo->think)
-		free(philo->think);
+	
 }
