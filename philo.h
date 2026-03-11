@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 11:50:26 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/09 16:38:54 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:49:47 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,19 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
+	int				last_meal;
+	int				nb_meal;
 	pthread_t		thread;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	t_data			*data;
 }					t_philo;
 
+t_data	*parse_struct(char **av);
 long	ft_atol(const char *nptr, int *status);
-int		check_arg(char **av, t_data *data);
-void	malloc_struct(t_data *data, t_philo *philo);
-void	err_mess(char *mess, t_data *data, t_philo *philo);
+int		mess_arg(void);
+t_philo	*malloc_struct(t_data *data);
+void	*err_mess(char *mess, t_data *data, t_philo *philo);
 void	ft_putstr_fd(char *s, int fd);
 void	clear_all(t_data *data, t_philo *philo);
 void	create_philo(t_data *data, t_philo *philo);

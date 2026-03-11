@@ -6,13 +6,13 @@
 #    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 15:58:44 by asauvage          #+#    #+#              #
-#    Updated: 2026/02/17 16:08:55 by asauvage         ###   ########.fr        #
+#    Updated: 2026/03/11 12:27:22 by asauvage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -I.
+CFLAGS = -Wall -Werror -Wextra -g3 -I.
 
 NAME = philo
 
@@ -21,12 +21,12 @@ OBJ_DIR = obj
 
 SRCS = main.c \
 	   ft_atol.c \
-	   check_arg.c \
 	   err_mess.c \
 	   ft_putstr_fd.c \
 	   malloc_struct.c \
 	   clear_all.c \
-	   create_philo.c
+	   create_philo.c \
+	   parse_struct.c
 
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

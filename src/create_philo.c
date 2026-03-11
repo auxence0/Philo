@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/09 13:16:34 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/11 12:24:07 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,29 @@
 
 void	*routine(void *arg)
 {
-	int id;
-
-	id = *(int *)arg;
-	printf("id num : %d\n", id);
+	t_philo	*philo;
+	philo = (t_philo *)arg;
+	pthread_mutex_lock(philo->data->lock);
+	printf("Soy el philo numero %d\n", philo->id);
+	pthread_mutex_unlock(philo->data->lock);
 	return (NULL);
 }
 
 void	create_philo(t_data *data, t_philo *philo)
 {
 	int			i;
-	pthread_t	*thread;
 
-	thread = malloc(sizeof(pthread_t) * (data->nb_philo));
-	if (!thread)
-		err_mess("Error: malloc\n", data, philo);
-	
+	i = 0;
+	pthread_mutex_init(data->lock, NULL);
+	while (i < data->nb_philo)
+	{
+		pthread_create(&philo[i].thread, NULL, routine, &philo[i]);
+		i++;
+	}
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_join(philo[i].thread, NULL);
+		i++;
+	}
 }
