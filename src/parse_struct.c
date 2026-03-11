@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:31:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/11 14:55:03 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:50:06 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_data	*parse_struct(char **av)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (err_mess("Error : Malloc Failed\n", data, NULL));
+	memset(data, 0, sizeof(t_data));
 	data->iterate = -1;
 	data->nb_philo = verif_arg(av[0], 1);
 	data->time_die = verif_arg(av[1], 0);

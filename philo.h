@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 11:50:26 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/11 14:49:47 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:31:48 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,21 @@ typedef struct s_data
 {
 	int				nb_philo;
 	int				iterate;
+	long long		start_time;
 	int				time_die;
 	int				time_eat;
 	int				time_sleep;
 	int				time_think;
+	int				one_died;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	*lock;
+	pthread_mutex_t	lock_print;
+	pthread_mutex_t	lock_eat;
 }					t_data;
 
 typedef struct s_philo
 {
 	int				id;
-	int				last_meal;
+	long long		last_meal;
 	int				nb_meal;
 	pthread_t		thread;
 	pthread_mutex_t	*l_fork;
@@ -44,13 +47,15 @@ typedef struct s_philo
 	t_data			*data;
 }					t_philo;
 
-t_data	*parse_struct(char **av);
-long	ft_atol(const char *nptr, int *status);
-int		mess_arg(void);
-t_philo	*malloc_struct(t_data *data);
-void	*err_mess(char *mess, t_data *data, t_philo *philo);
-void	ft_putstr_fd(char *s, int fd);
-void	clear_all(t_data *data, t_philo *philo);
-void	create_philo(t_data *data, t_philo *philo);
+t_data		*parse_struct(char **av);
+long		ft_atol(const char *nptr, int *status);
+int			mess_arg(void);
+t_philo		*malloc_struct(t_data *data);
+void		*err_mess(char *mess, t_data *data, t_philo *philo);
+void		ft_putstr_fd(char *s, int fd);
+void		clear_all(t_data *data, t_philo *philo);
+void		create_philo(t_data *data, t_philo *philo);
+void		ft_usleep(long long time_in_ms);
+long long	get_time_ms(void);
 
 #endif

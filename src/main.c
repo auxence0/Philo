@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 11:49:17 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/11 13:03:16 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:29:14 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ int	main(int ac, char **av)
 		return (1);
 	create_philo(data, philo);
 	clear_all(data, philo);
-	printf("AG\n");
+	return (0);
 }
