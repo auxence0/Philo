@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/12 14:26:41 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:21:34 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ void	*monitoring(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (!philo->data->one_died && philo->data->finish_eat != philo->data->nb_philo)
+	while (!philo->data->one_died)
 	{
 		i = 0;
+		if (philo->data->finish_eat == philo->data->nb_philo)
+			return (NULL);
 		while (i < philo->data->nb_philo)
 		{
 			if (philo[i].nb_meal == philo->data->iterate)
@@ -54,6 +56,30 @@ void	eat(t_philo	*philo)
 	ft_usleep(philo->data->time_eat);
 }
 
+void	even_philo(t_philo *philo)
+{
+	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(&philo->data->lock_print);
+	printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
+	pthread_mutex_unlock(&philo->data->lock_print);
+	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(&philo->data->lock_print);
+	printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
+	pthread_mutex_unlock(&philo->data->lock_print);
+}
+
+void	odd_philo(t_philo *philo)
+{
+	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(&philo->data->lock_print);
+	printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
+	pthread_mutex_unlock(&philo->data->lock_print);
+	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(&philo->data->lock_print);
+	printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
+	pthread_mutex_unlock(&philo->data->lock_print);
+}
+
 void	*routine(void *arg)
 {
 	t_philo	*philo;
@@ -64,35 +90,26 @@ void	*routine(void *arg)
 	while (philo->nb_meal != philo->data->iterate && !philo->data->one_died)
 	{
 		if (philo->id % 2)
-		{
-			pthread_mutex_lock(philo->l_fork);
-			pthread_mutex_lock(&philo->data->lock_print);
-			printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
-			pthread_mutex_unlock(&philo->data->lock_print);
-			pthread_mutex_lock(philo->r_fork);
-			pthread_mutex_lock(&philo->data->lock_print);
-			printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
-			pthread_mutex_unlock(&philo->data->lock_print);
-		}
+			even_philo(philo);
 		else
-		{
-			pthread_mutex_lock(philo->r_fork);
-			pthread_mutex_lock(&philo->data->lock_print);
-			printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
-			pthread_mutex_unlock(&philo->data->lock_print);
-			pthread_mutex_lock(philo->l_fork);
-			pthread_mutex_lock(&philo->data->lock_print);
-			printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
-			pthread_mutex_unlock(&philo->data->lock_print);
-		}
+			odd_philo(philo);
 		eat(philo);
 		pthread_mutex_unlock(philo->r_fork);
 		pthread_mutex_unlock(philo->l_fork);
-		if (!philo->data->one_died)
+		if (!philo->data->one_died && philo->nb_meal != philo->data->iterate)
+		{
+			pthread_mutex_lock(&philo->data->lock_print);
 			printf("%ld Philo %d is sleeping\n", get_time_ms() - philo->data->start_time, philo->id);
+			pthread_mutex_unlock(&philo->data->lock_print);
+			ft_usleep(philo->data->time_sleep);
+			pthread_mutex_lock(&philo->data->lock_print);
+			printf("%ld Philo %d is thinking\n", get_time_ms() - philo->data->start_time, philo->id);
+			pthread_mutex_unlock(&philo->data->lock_print);
+		}
 		usleep(100);
 	}
-	philo->data->finish_eat += 1;
+	if (philo->nb_meal == philo->data->iterate)
+		philo->data->finish_eat += 1;
 	return (NULL);
 }
 
