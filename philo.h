@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 11:50:26 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/12 14:26:00 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:36:57 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		*err_mess(char *mess, t_data *data, t_philo *philo);
 void		ft_putstr_fd(char *s, int fd);
 void		clear_all(t_data *data, t_philo *philo);
 void		create_philo(t_data *data, t_philo *philo);
-void		ft_usleep(long long time_in_ms);
+void		ft_usleep(long time_in_ms);
 long		get_time_ms(void);
 
 #endif

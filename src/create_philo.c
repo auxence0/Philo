@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/12 17:15:59 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:38:23 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ void	*monitoring(void *arg)
 
 void	eat(t_philo	*philo)
 {
-	pthread_mutex_lock(&philo->data->lock_eat);
 	philo->nb_meal += 1;
 	philo->last_meal = get_time_ms();
-	pthread_mutex_unlock(&philo->data->lock_eat);
 	pthread_mutex_lock(&philo->data->lock_print);
 	if (!philo->data->one_died)
 		printf("%ld %d is eating\n", get_time_ms() - philo->data->start_time, philo->id);
@@ -57,11 +55,11 @@ void	eat(t_philo	*philo)
 
 void	even_philo(t_philo *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(philo->r_fork);
 	pthread_mutex_lock(&philo->data->lock_print);
 	printf("%ld %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->lock_print);
-	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(philo->l_fork);
 	pthread_mutex_lock(&philo->data->lock_print);
 	printf("%ld %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->lock_print);
@@ -69,11 +67,11 @@ void	even_philo(t_philo *philo)
 
 void	odd_philo(t_philo *philo)
 {
-	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(philo->l_fork);
 	pthread_mutex_lock(&philo->data->lock_print);
 	printf("%ld %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->lock_print);
-	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(philo->r_fork);
 	pthread_mutex_lock(&philo->data->lock_print);
 	printf("%ld %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->lock_print);
@@ -85,7 +83,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2)
-		usleep(500);
+		ft_usleep(1);
 	while (philo->nb_meal != philo->data->iterate && !philo->data->one_died)
 	{
 		if (philo->id % 2)
@@ -104,6 +102,7 @@ void	*routine(void *arg)
 			pthread_mutex_lock(&philo->data->lock_print);
 			printf("%ld %d is thinking\n", get_time_ms() - philo->data->start_time, philo->id);
 			pthread_mutex_unlock(&philo->data->lock_print);
+			ft_usleep(philo->data->time_eat - philo->data->time_sleep + 5);
 		}
 	}
 	pthread_mutex_lock(&philo->data->lock_eat);
