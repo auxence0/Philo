@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/12 16:21:34 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/12 17:15:59 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*monitoring(void *arg)
 	while (!philo->data->one_died)
 	{
 		i = 0;
-		if (philo->data->finish_eat == philo->data->nb_philo)
+		if (philo->data->finish_eat == philo->data->iterate)
 			return (NULL);
 		while (i < philo->data->nb_philo)
 		{
@@ -36,9 +36,8 @@ void	*monitoring(void *arg)
 		}
 		usleep(500);
 	}
-	philo->data->one_died = 1;
 	pthread_mutex_lock(&philo->data->lock_print);
-	printf("%ld Philo %d died\n", get_time_ms() - philo->data->start_time, philo[i].id);
+	printf("%ld %d died\n", get_time_ms() - philo->data->start_time, philo[i].id);
 	pthread_mutex_unlock(&philo->data->lock_print);
 	return (NULL);
 }
@@ -51,7 +50,7 @@ void	eat(t_philo	*philo)
 	pthread_mutex_unlock(&philo->data->lock_eat);
 	pthread_mutex_lock(&philo->data->lock_print);
 	if (!philo->data->one_died)
-		printf("%ld Philo %d is eating\n", get_time_ms() - philo->data->start_time, philo->id);
+		printf("%ld %d is eating\n", get_time_ms() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->lock_print);
 	ft_usleep(philo->data->time_eat);
 }
@@ -60,11 +59,11 @@ void	even_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->l_fork);
 	pthread_mutex_lock(&philo->data->lock_print);
-	printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
+	printf("%ld %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->lock_print);
 	pthread_mutex_lock(philo->r_fork);
 	pthread_mutex_lock(&philo->data->lock_print);
-	printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
+	printf("%ld %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->lock_print);
 }
 
@@ -72,11 +71,11 @@ void	odd_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->r_fork);
 	pthread_mutex_lock(&philo->data->lock_print);
-	printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
+	printf("%ld %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->lock_print);
 	pthread_mutex_lock(philo->l_fork);
 	pthread_mutex_lock(&philo->data->lock_print);
-	printf("%ld Philo %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
+	printf("%ld %d has taken a fork\n", get_time_ms() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->lock_print);
 }
 
@@ -86,7 +85,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2)
-		usleep(50);
+		usleep(500);
 	while (philo->nb_meal != philo->data->iterate && !philo->data->one_died)
 	{
 		if (philo->id % 2)
@@ -99,17 +98,19 @@ void	*routine(void *arg)
 		if (!philo->data->one_died && philo->nb_meal != philo->data->iterate)
 		{
 			pthread_mutex_lock(&philo->data->lock_print);
-			printf("%ld Philo %d is sleeping\n", get_time_ms() - philo->data->start_time, philo->id);
+			printf("%ld %d is sleeping\n", get_time_ms() - philo->data->start_time, philo->id);
 			pthread_mutex_unlock(&philo->data->lock_print);
 			ft_usleep(philo->data->time_sleep);
 			pthread_mutex_lock(&philo->data->lock_print);
-			printf("%ld Philo %d is thinking\n", get_time_ms() - philo->data->start_time, philo->id);
+			printf("%ld %d is thinking\n", get_time_ms() - philo->data->start_time, philo->id);
 			pthread_mutex_unlock(&philo->data->lock_print);
 		}
-		usleep(100);
 	}
+	pthread_mutex_lock(&philo->data->lock_eat);
+	//printf("test id : %d died ? : %d nb_meal : %d && finish_eat : %d\n", philo->id, philo->data->one_died, philo->nb_meal, philo->data->finish_eat);
 	if (philo->nb_meal == philo->data->iterate)
 		philo->data->finish_eat += 1;
+	pthread_mutex_unlock(&philo->data->lock_eat);
 	return (NULL);
 }
 
