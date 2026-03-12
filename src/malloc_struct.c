@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:46 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/11 16:31:58 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/12 11:45:48 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ t_philo	*malloc_struct(t_data *data)
 		philo[i].data = data;
 		i++;
 	}
+	philo->data = data;
 	return (philo);
 }
