@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:46 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/12 11:45:48 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:48:13 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_philo	*malloc_struct(t_data *data)
 	philo = malloc(sizeof(t_philo) * (data->nb_philo));
 	if (!philo)
 		return (err_mess("Error : Malloc failed\n", data, philo));
-	memset(philo, 0, sizeof(t_philo));
 	data->fork = malloc(sizeof(pthread_mutex_t) * (data->nb_philo));
 	if (!data->fork)
 		return (err_mess("Error : Malloc failed\n", data, philo));
@@ -32,6 +31,8 @@ t_philo	*malloc_struct(t_data *data)
 		philo[i].r_fork = &data->fork[(i + 1) % data->nb_philo];
 		pthread_mutex_init(&data->fork[i], NULL);
 		philo[i].data = data;
+		philo[i].last_meal = get_time_ms();
+		philo[i].nb_meal = 0;
 		i++;
 	}
 	philo->data = data;

@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 11:50:26 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/12 11:41:02 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:26:00 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 typedef struct s_data
 {
 	int				nb_philo;
+	int				finish_eat;
 	int				iterate;
 	long			start_time;
 	int				time_die;
