@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_all.c                                        :+:      :+:    :+:   */
+/*   check_print.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/17 14:53:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/13 16:04:57 by asauvage         ###   ########.fr       */
+/*   Created: 2026/03/13 12:03:55 by asauvage          #+#    #+#             */
+/*   Updated: 2026/03/13 16:04:54 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	clear_all(t_data *data, t_philo *philo)
+void	check_printf(char *str, t_philo *philo)
 {
-	if (data->fork)
-		free(data->fork);
-	if (data)
-		free(data);
-	if (philo)
-		free(philo);
+	pthread_mutex_lock(&philo->data->lock_print);
+	if (!philo->data->one_died)
+		printf("%ld %d %s", get_time_ms() - philo->data->start_time, philo->id,
+			str);
+	pthread_mutex_unlock(&philo->data->lock_print);
 }

@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:31:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/12 14:35:16 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:05:28 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	verif_arg(char *av, int min)
 {
-	int	status;
-	long nb;
+	int		status;
+	long	nb;
 
 	status = 0;
 	nb = ft_atol(av, &status);
@@ -27,6 +27,7 @@ int	verif_arg(char *av, int min)
 t_data	*parse_struct(char **av)
 {
 	t_data	*data;
+
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (err_mess("Error : Malloc Failed\n", data, NULL));

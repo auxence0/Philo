@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:16:37 by asauvage          #+#    #+#             */
-/*   Updated: 2026/02/17 14:21:21 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:05:09 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ long	ft_atol(const char *nptr, int *status)
 	m = 1;
 	nb = 0;
 	if (!nptr)
-	i = skip_spaces(nptr, i);
+		i = skip_spaces(nptr, i);
 	if (nptr[i] == '+' || nptr[i] == '-')
 	{
 		if (nptr[i] == '-')
