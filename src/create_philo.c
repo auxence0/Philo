@@ -6,40 +6,11 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/13 16:04:52 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:11:35 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	*monitoring(t_philo *philo)
-{
-	int	i;
-
-	while (!philo->data->one_died)
-	{
-		i = 0;
-		if (philo->data->finish_eat == philo->data->nb_philo)
-			return (NULL);
-		while (i < philo->data->nb_philo)
-		{
-			if (philo[i].nb_meal == philo->data->iterate)
-				break ;
-			if (philo[i].last_meal + philo->data->time_die <= get_time_ms())
-			{
-				philo->data->one_died = 1;
-				break ;
-			}
-			i++;
-		}
-		usleep(500);
-	}
-	pthread_mutex_lock(&philo->data->lock_print);
-	printf("%ld %d died\n", get_time_ms() - philo->data->start_time,
-		philo[i].id);
-	pthread_mutex_unlock(&philo->data->lock_print);
-	return (NULL);
-}
 
 void	eat(t_philo *philo)
 {
@@ -47,22 +18,39 @@ void	eat(t_philo *philo)
 	philo->last_meal = get_time_ms();
 	check_printf("is eating\n", philo);
 	ft_usleep(philo->data->time_eat);
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
 }
 
-void	even_philo(t_philo *philo)
+void	even_or_odd_philo(t_philo *philo)
 {
-	pthread_mutex_lock(philo->r_fork);
-	check_printf("has taken a fork\n", philo);
-	pthread_mutex_lock(philo->l_fork);
-	check_printf("has taken a fork\n", philo);
+	if (philo->id % 2)
+	{
+		pthread_mutex_lock(philo->r_fork);
+		check_printf("has taken a fork\n", philo);
+		pthread_mutex_lock(philo->l_fork);
+		check_printf("has taken a fork\n", philo);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->l_fork);
+		check_printf("has taken a fork\n", philo);
+		pthread_mutex_lock(philo->r_fork);
+		check_printf("has taken a fork\n", philo);
+	}
 }
 
-void	odd_philo(t_philo *philo)
+int	sleep_and_thinking(t_philo *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
-	check_printf("has taken a fork\n", philo);
-	pthread_mutex_lock(philo->r_fork);
-	check_printf("has taken a fork\n", philo);
+	check_printf("is sleeping\n", philo);
+	ft_usleep(philo->data->time_sleep);
+	if (philo->data->one_died)
+		return (0);
+	check_printf("is thinking\n", philo);
+	if (philo->data->nb_philo % 2 && philo->data->time_eat * 2
+		- philo->data->time_sleep > 0)
+		ft_usleep(philo->data->time_eat * 2 - philo->data->time_sleep);
+	return (1);
 }
 
 void	*routine(void *arg)
@@ -79,23 +67,12 @@ void	*routine(void *arg)
 		ft_usleep(5);
 	while (philo->nb_meal != philo->data->iterate && !philo->data->one_died)
 	{
-		if (philo->id % 2)
-			even_philo(philo);
-		else
-			odd_philo(philo);
+		even_or_odd_philo(philo);
 		eat(philo);
-		pthread_mutex_unlock(philo->r_fork);
-		pthread_mutex_unlock(philo->l_fork);
 		if (!philo->data->one_died && philo->nb_meal <= philo->data->iterate)
 		{
-			check_printf("is sleeping\n", philo);
-			ft_usleep(philo->data->time_sleep);
-			if (philo->data->one_died)
+			if (!sleep_and_thinking(philo))
 				break ;
-			check_printf("is thinking\n", philo);
-			if (philo->data->nb_philo % 2 && philo->data->time_eat * 2
-				- philo->data->time_sleep > 0)
-				ft_usleep(philo->data->time_eat * 2 - philo->data->time_sleep);
 		}
 	}
 	pthread_mutex_lock(&philo->data->lock_eat);

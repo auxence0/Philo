@@ -6,7 +6,7 @@
 #    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 15:58:44 by asauvage          #+#    #+#              #
-#    Updated: 2026/03/13 12:56:34 by asauvage         ###   ########.fr        #
+#    Updated: 2026/03/13 16:13:22 by asauvage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRCS = main.c \
 	   create_philo.c \
 	   parse_struct.c \
 	   ft_usleep.c \
-	   check_print.c
+	   check_print.c \
+	   monitoring.c
 
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

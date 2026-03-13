@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 11:49:17 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/13 16:05:23 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:20:22 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ int	main(int ac, char **av)
 
 	if (5 > ac || ac > 6)
 		return (mess_arg());
-	if (!(data = parse_struct(&av[1])))
+	data = parse_struct(&av[1]);
+	if (!data)
 		return (1);
-	if (!(philo = malloc_struct(data)))
+	philo = malloc_struct(data);
+	if (!philo)
 		return (1);
 	create_philo(data, philo);
 	clear_all(data, philo);
