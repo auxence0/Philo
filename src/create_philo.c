@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/12 20:38:23 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/13 11:12:18 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	*routine(void *arg)
 		eat(philo);
 		pthread_mutex_unlock(philo->r_fork);
 		pthread_mutex_unlock(philo->l_fork);
-		if (!philo->data->one_died && philo->nb_meal != philo->data->iterate)
+		if (!philo->data->one_died && philo->nb_meal <= philo->data->iterate)
 		{
 			pthread_mutex_lock(&philo->data->lock_print);
 			printf("%ld %d is sleeping\n", get_time_ms() - philo->data->start_time, philo->id);
@@ -102,11 +102,10 @@ void	*routine(void *arg)
 			pthread_mutex_lock(&philo->data->lock_print);
 			printf("%ld %d is thinking\n", get_time_ms() - philo->data->start_time, philo->id);
 			pthread_mutex_unlock(&philo->data->lock_print);
-			ft_usleep(philo->data->time_eat - philo->data->time_sleep + 5);
+			ft_usleep(philo->data->time_eat - philo->data->time_sleep + 2);
 		}
 	}
 	pthread_mutex_lock(&philo->data->lock_eat);
-	//printf("test id : %d died ? : %d nb_meal : %d && finish_eat : %d\n", philo->id, philo->data->one_died, philo->nb_meal, philo->data->finish_eat);
 	if (philo->nb_meal == philo->data->iterate)
 		philo->data->finish_eat += 1;
 	pthread_mutex_unlock(&philo->data->lock_eat);
