@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/16 13:27:16 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/16 14:00:32 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,37 +46,13 @@ int	sleep_and_thinking(t_philo *philo)
 {
 	check_printf("is sleeping\n", philo);
 	ft_usleep(philo->data->time_sleep);
-	if (philo->data->one_died)
+	if (!check_died(philo))
 		return (0);
 	check_printf("is thinking\n", philo);
 	if (philo->data->nb_philo % 2 && philo->data->time_eat * 2
 		- philo->data->time_sleep > 0)
 		ft_usleep(philo->data->time_eat * 2 - philo->data->time_sleep);
 	return (1);
-}
-
-int	check_loop_philo(t_philo *philo)
-{
-	int	status;
-
-	status = 1;
-	pthread_mutex_lock(&philo->data->lock_eat);
-	if (philo->nb_meal == philo->data->iterate || philo->data->one_died)
-		status = 0;
-	pthread_mutex_unlock(&philo->data->lock_eat);
-	return (status);
-}
-
-int	check_died(t_philo *philo)
-{
-	int	status;
-
-	status = 1;
-	pthread_mutex_lock(&philo->data->lock_eat);
-	if (philo->data->one_died)
-		status = 0;
-	pthread_mutex_unlock(&philo->data->lock_eat);
-	return (status);
 }
 
 void	*routine(void *arg)
