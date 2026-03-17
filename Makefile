@@ -6,13 +6,13 @@
 #    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 15:58:44 by asauvage          #+#    #+#              #
-#    Updated: 2026/03/16 17:09:04 by asauvage         ###   ########.fr        #
+#    Updated: 2026/03/17 12:01:14 by asauvage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g3 -I.
+CFLAGS = -Wall -Werror -Wextra -I. -pthread
 
 NAME = philo
 
@@ -22,7 +22,6 @@ OBJ_DIR = obj
 SRCS = main.c \
 	   ft_atol.c \
 	   err_mess.c \
-	   ft_putstr_fd.c \
 	   malloc_struct.c \
 	   clear_all.c \
 	   create_philo.c \
@@ -37,7 +36,7 @@ OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 all : $(NAME)
 
 $(NAME): $(OBJS)
-		$(CC) $(CFLAGS) -lpthread $(OBJS) -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 		mkdir -p $(@D)
