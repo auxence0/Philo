@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:12 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/16 17:07:28 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/18 10:57:51 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->data->nb_philo == 1 && philo->data->iterate > 0)
+	if (philo->data->nb_philo == 1 && philo->data->iterate != 0)
 	{
 		check_printf("has taken a fork\n", philo);
 		return (NULL);
