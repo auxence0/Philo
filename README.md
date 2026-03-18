@@ -46,6 +46,8 @@ The program use the following arguments
 
 -https://www.codequoi.com/threads-mutex-et-programmation-concurrente-en-c/
 
+-https://fr.wikipedia.org/wiki/Programmation_concurrente
+
 ### IA Usage
 
 -AI was used primarily to help me write this Readme and also to deepen my understanding of mutexes.

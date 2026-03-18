@@ -6,13 +6,13 @@
 #    By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/16 15:58:44 by asauvage          #+#    #+#              #
-#    Updated: 2026/03/18 13:42:29 by asauvage         ###   ########.fr        #
+#    Updated: 2026/03/18 14:28:51 by asauvage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -I. -pthread 
+CFLAGS = -Wall -Werror -Wextra -I. -pthread
 
 NAME = philo
 
