@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 11:49:17 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/13 16:20:22 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:46:23 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	mess_arg(void)
 {
-	write(2, "Error args : nb of philos > 0, time (ms) to die,", 49);
-	write(2, " eat, sleep and/or nb of times each philo must eat\n", 52);
+	write(2, "Error: Usage: ./philo <nb_philos> <time_die> <time_eat>", 56);
+	write(2, " <time_sleep> [nb_meals]\n", 26);
 	return (1);
 }
 

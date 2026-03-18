@@ -6,7 +6,7 @@
 /*   By: asauvage <asauvage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:31:33 by asauvage          #+#    #+#             */
-/*   Updated: 2026/03/16 10:46:45 by asauvage         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:54:03 by asauvage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int	check_all_args(t_data *data)
 		|| data->time_sleep == -2 || data->iterate == -2)
 	{
 		mess_arg();
-		free(data);
+		if (data)
+			free(data);
+		data = NULL;
 		return (0);
 	}
 	return (1);
@@ -42,7 +44,7 @@ t_data	*parse_struct(char **av)
 
 	data = malloc(sizeof(t_data));
 	if (!data)
-		return (err_mess("Error : Malloc Failed\n", data, NULL));
+		return (err_mess("Error: Malloc Failed\n", data, NULL));
 	memset(data, 0, sizeof(t_data));
 	data->iterate = -1;
 	data->finish_eat = -1;
